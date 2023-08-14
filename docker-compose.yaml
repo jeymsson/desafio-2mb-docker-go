@@ -1,11 +1,21 @@
 version: '3'
 
 services: 
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    networks: 
+      - node-network
+    depends_on: 
+       - node
 
-  app:
+  node:
     build: 
       context: node
-    container_name: app
+    container_name: node
     # entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
     networks: 
       - node-network
@@ -30,7 +40,6 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     networks: 
       - node-network
-
     
 
 networks: 
